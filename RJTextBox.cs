@@ -303,6 +303,7 @@ namespace CustomControls.RJControls
                 pathTxt = GetFigurePath(textBox1.ClientRectangle, borderSize * 2);
                 textBox1.Region = new Region(pathTxt);
             }
+            pathTxt.Dispose();
         }
 
         private GraphicsPath GetFigurePath(Rectangle rect, int radius)
