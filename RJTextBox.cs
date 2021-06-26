@@ -191,29 +191,7 @@ namespace CustomControls.RJControls
             }
         }
 
-        private void SetPlaceholder()
-        {
-            if (string.IsNullOrWhiteSpace(textBox1.Text) && placeholderText != "")
-            {
-                isPlaceholder = true;
-                textBox1.Text = placeholderText;
-                textBox1.ForeColor = placeholderColor;
-                if (isPasswordChar)
-                    textBox1.UseSystemPasswordChar = false;
-            }
-        }
 
-        private void RemovePlaceholder()
-        {
-            if (isPlaceholder && placeholderText != "")
-            {
-                isPlaceholder = false;
-                textBox1.Text = "";
-                textBox1.ForeColor = this.ForeColor;
-                if (isPasswordChar)
-                    textBox1.UseSystemPasswordChar = true;
-            }
-        }
 
         #endregion
 
@@ -229,7 +207,6 @@ namespace CustomControls.RJControls
             base.OnLoad(e);
             UpdateControlHeight();
         }
-
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -290,6 +267,41 @@ namespace CustomControls.RJControls
         #endregion
 
         #region -> Private methods
+        private void SetPlaceholder()
+        {
+            if (string.IsNullOrWhiteSpace(textBox1.Text) && placeholderText != "")
+            {
+                isPlaceholder = true;
+                textBox1.Text = placeholderText;
+                textBox1.ForeColor = placeholderColor;
+                if (isPasswordChar)
+                    textBox1.UseSystemPasswordChar = false;
+            }
+        }
+        private void RemovePlaceholder()
+        {
+            if (isPlaceholder && placeholderText != "")
+            {
+                isPlaceholder = false;
+                textBox1.Text = "";
+                textBox1.ForeColor = this.ForeColor;
+                if (isPasswordChar)
+                    textBox1.UseSystemPasswordChar = true;
+            }
+        }        
+        private GraphicsPath GetFigurePath(Rectangle rect, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            float curveSize = radius * 2F;
+
+            path.StartFigure();
+            path.AddArc(rect.X, rect.Y, curveSize, curveSize, 180, 90);
+            path.AddArc(rect.Right - curveSize, rect.Y, curveSize, curveSize, 270, 90);
+            path.AddArc(rect.Right - curveSize, rect.Bottom - curveSize, curveSize, curveSize, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - curveSize, curveSize, curveSize, 90, 90);
+            path.CloseFigure();
+            return path;
+        }
         private void SetTextBoxRoundedRegion()
         {
             GraphicsPath pathTxt;
@@ -305,21 +317,6 @@ namespace CustomControls.RJControls
             }
             pathTxt.Dispose();
         }
-
-        private GraphicsPath GetFigurePath(Rectangle rect, int radius)
-        {
-            GraphicsPath path = new GraphicsPath();
-            float curveSize = radius * 2F;
-
-            path.StartFigure();
-            path.AddArc(rect.X, rect.Y, curveSize, curveSize, 180, 90);
-            path.AddArc(rect.Right - curveSize, rect.Y, curveSize, curveSize, 270, 90);
-            path.AddArc(rect.Right - curveSize, rect.Bottom - curveSize, curveSize, curveSize, 0, 90);
-            path.AddArc(rect.X, rect.Bottom - curveSize, curveSize, curveSize, 90, 90);
-            path.CloseFigure();
-            return path;
-        }
-
         private void UpdateControlHeight()
         {
             if (textBox1.Multiline == false)
